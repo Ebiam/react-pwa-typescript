@@ -19,10 +19,11 @@ function App() {
         return
       }
 
+      console.log(convertedVapidKey);
       registration.pushManager
           .subscribe({
             userVisibleOnly: true, //Always display notifications
-            applicationServerKey: convertedVapidKey
+            applicationServerKey: vapidPublicKey//convertedVapidKey
           })
           .then(subscription => {
             console.log('Sending api request');

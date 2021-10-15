@@ -82,7 +82,7 @@ self.addEventListener('message', (event) => {
 self.addEventListener('push', (event) => {
     console.log("SW catch push");
 
-    // @ts-ignore
+    /* @ts-ignore
     const data = event.data.json();
     const { title } = data;
 
@@ -91,8 +91,8 @@ self.addEventListener('push', (event) => {
         icon: data.icon
     };
 
-    event.waitUntil(self.registration.showNotification(title, body))
-   /* let body: string;
+    event.waitUntil(self.registration.showNotification(title, body))*/
+    let body: string;
 
     if (event.data) {
         //You can set an original message by passing it on the event.
@@ -113,5 +113,5 @@ self.addEventListener('push', (event) => {
 
     event.waitUntil(
         self.registration.showNotification('Your Message Title',
-            options))*/
+            options))
 })

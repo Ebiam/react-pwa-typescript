@@ -26,8 +26,10 @@ function App() {
           })
           .then(subscription => {
             console.log('Sending api request');
-            axios.post("https://node-backend-pwa.herokuapp.com/notification", subscription).then(() => {
+            axios.post("https://node-backend-pwa.herokuapp.com/notification", subscription).then((res) => {
               console.log('Send ok');
+              console.log(res);
+              console.log(res.data);
               setSub(!isSub);
             })
           })

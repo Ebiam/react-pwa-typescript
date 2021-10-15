@@ -92,26 +92,34 @@ self.addEventListener('push', (event) => {
     };
 
     event.waitUntil(self.registration.showNotification(title, body))*/
-    let body: string;
+    try {
+        let body: string;
 
-    if (event.data) {
-        //You can set an original message by passing it on the event.
-        body = event.data.text()
-    } else {
-        body = 'Default body'
+
+        if (event.data) {
+            //You can set an original message by passing it on the event.
+            body = event.data.text()
+        } else {
+            body = 'Default body'
+        }
+
+        const options = {
+            body: body,
+            icon: '/your icon image',
+            vibrate: [100, 50, 100],
+            data: {
+                dateOfArrival: Date.now(),
+                primaryKey: 1,
+            },
+        };
+
+
+        event.waitUntil(
+            self.registration.showNotification('Your Message Title',
+                options))
     }
-
-    const options = {
-        body: body,
-        icon: '/your icon image',
-        vibrate: [100, 50, 100],
-        data: {
-            dateOfArrival: Date.now(),
-            primaryKey: 1,
-        },
-    };
-
-    event.waitUntil(
-        self.registration.showNotification('Your Message Title',
-            options))
+    catch (e) {
+        console.log('SW pushlistn error ');
+        console.log(e);
+    }
 })

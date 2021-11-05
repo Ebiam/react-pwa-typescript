@@ -1,18 +1,22 @@
 import React, {useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './components/Link.css';
 import Subscribebutton from './components/SubscribeButton';
 import {urlBase64ToUint8Array} from "./utils/notificationUtils";
 import axios from "axios";
+import MenuNavbar from './components/material/MenuNavbar';
+import Links from './components/Links';
+import pdp from './assets/image_avatar.jpg';
 
 function App() {
-
-  const [isSub, setSub] = useState(false);
+    const [isSub, setSub] = useState(false);
 
   const vapidPublicKey = "BM0AYWnrNIo1NGaYDYgok4I-xtyB1NZidBV0MtUKEdx8jKIDaO7g8b9eOjNAOgFuf80mSyyGGoFUf3UNOBK_lqQ";
   const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
 
   const subscribePush = () => {
+      console.log('slt');
     navigator.serviceWorker.ready.then(registration => {
       if (!registration.pushManager) {
         alert("Push Unsupported");
@@ -57,34 +61,40 @@ function App() {
               }).catch(err => console.error(err))
         }).catch((err) => console.error(err))
       })
-    }
+    };
 
 
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Subscribebutton/>
-        <button onClick={() => {
+      <>
+      <div className={"Page-content"}>
+          <MenuNavbar/>
+          <div style={{display: 'flex', justifyContent: 'center'}}>
+          <img className="fit-picture"
+               src={pdp}
+               alt="Grapefruit slice atop a pile of other slices"
+               style={{borderRadius: '50%',width:'200px', height:'auto'}}
+          />
+          </div>
+
+        <div className={"Title-container"}>
+          <p>Enzo Biamonti</p>
+        </div>
+        <div className={"Buttons-container"} >
+          <button onClick={() => {
             if (!isSub)
               subscribePush();
             else
               unsubscribePush();
-        }}>Real {isSub}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+          }}>Subscribe to notifications</button>
+        </div>
+
+
+          <Links/>
+
+
+      </div>
+      </>
   );
 }
 

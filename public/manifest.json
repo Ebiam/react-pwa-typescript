@@ -1,25 +1,31 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "FollowMe",
+  "name": "FollowMe - All my socials in one place !",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "images/android-icon-36x36.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "36x36"
     },
     {
-      "src": "logo512.png",
+      "src": "images/android-icon-48x48.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "48x48"
+    },
+    {
+      "src": "images/android-icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
     }
   ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "orientation": "portrait"
 }

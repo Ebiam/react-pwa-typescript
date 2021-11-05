@@ -79,33 +79,66 @@ self.addEventListener('message', (event) => {
 
 // Any other custom service worker logic can go here.
 
-self.addEventListener('push', (event) => {
+type notification = {
+    title: string;
+    body: string;
+};
+
+self.addEventListener('push', (event: any) => {
     console.log("SW catch push");
-
-    /* @ts-ignore
-    const data = event.data.json();
-    const { title } = data;
-
-    const body = {
-        body: data.body,
-        icon: data.icon
-    };
-
+    console.log('=====');
+    console.log(event);
+    console.log('=====');
+    console.log(event.data);
+    console.log('=====');
+    console.log(event.data.arrayBuffer);
+    console.log('=====');
+    console.log(event.data.json);
+    console.log('=====');
+    console.log(event.data.text);
+    /*
     event.waitUntil(self.registration.showNotification(title, body))*/
+    /*let notification = new Notification(title, {
+        body: message,
+        tag: 'simple-push-demo-notification',
+        icon: icon
+    });
+
+    /*notification.addEventListener('click', function() {
+        console.log('You CLICKED ON NOTIF !!!');
+        /*if (clients.openWindow) {
+            clients.openWindow('https://example.blog.com/2015/03/04/something-new.html');
+        }
+    });*/
+
     try {
-        let body: string;
-
-
+        let notification_data;
         if (event.data) {
+            notification_data = event.data.json();
+        }
+        let title = notification_data.title || "Something Has Happened";
+        let message = notification_data.message || "Here's something you might want to check out.";
+        let icon = "images/favicon-16x16.png";
+
+        let body: object;
+
+
+        if (event.data && event.data.json) {
             //You can set an original message by passing it on the event.
-            body = event.data.text()
+            body = event.data.json();
         } else {
-            body = 'Default body'
+            body = {body: 'NONO NON ON ON ONO NON ', title: 'NOOOOOOOO'}
         }
 
+
+        console.log("SALUt");
+        console.log(body);
+        console.log(typeof body);
+
         const options = {
-            body: body,
-            icon: '/your icon image',
+            // @ts-ignore
+            body: body.body,
+            icon: icon,
             vibrate: [100, 50, 100],
             data: {
                 dateOfArrival: Date.now(),
@@ -113,10 +146,9 @@ self.addEventListener('push', (event) => {
             },
         };
 
-
         event.waitUntil(
-            self.registration.showNotification('Your Message Title',
-                options))
+            // @ts-ignore
+            self.registration.showNotification(body.title, options))
     }
     catch (e) {
         console.log('SW pushlistn error ');

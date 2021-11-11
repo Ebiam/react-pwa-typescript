@@ -1,9 +1,21 @@
 .Page-content {
     height: 100vh;
     width: 100vw;
-    background: linear-gradient(70deg, #3A2D78, #c000ff, #FF9A22);
     justify-content: center;
     overflow: scroll;
+}
+
+.Insta-background {
+    background: linear-gradient(70deg, #3A2D78, #c000ff, #FF9A22);
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 .Title-container {

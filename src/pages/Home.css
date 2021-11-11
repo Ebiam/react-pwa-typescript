@@ -1,0 +1,10 @@
+
+.vertical-center {
+    margin: 0 auto;
+}
+
+.home-content {
+    width:100%;
+    display: flex;
+    justify-content: center;
+}

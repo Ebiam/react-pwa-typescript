@@ -14,7 +14,7 @@ export default function Home() {
             <div className={'home-content'}>
                 <p style={{fontFamily: 'Mochiy Pop One', fontSize:'10vw', maxHeight: '30vh'}}>FollowMe!</p>
             </div>
-            <div style={{border: '3px solid red', marginInline: 25, alignItems: 'center', textAlign: 'center'}}>
+            <div style={{marginInline: 25, alignItems: 'center', textAlign: 'center'}}>
                 <p style={{
                     verticalAlign: 'middle',
                     lineHeight: '1.5',

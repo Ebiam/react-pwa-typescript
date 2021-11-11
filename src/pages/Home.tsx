@@ -20,8 +20,8 @@ export default function Home() {
                     lineHeight: '1.5',
                     display: 'inline-block'
                 }}>
-                    Tired to search your friend's different usernames in all social medias ? <br/>
-                    You find it painfull to give all your socials everytime you meet someone new ? <br/>
+                    Tired to search your friend's different username in all social medias ? <br/>
+                    You find it painful to give all your socials everytime you meet someone new ? <br/>
                     Angry to miss content because the creator put Instagram before TikTok ? <br/><br/>
                     This is the solution. All the socials in one page. One page to rule them all. <br/>
                 </p>

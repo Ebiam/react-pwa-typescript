@@ -62,6 +62,7 @@ export default function LoginForm() {
 
     const toggleMode = () => {
         setMode({...mode, signIn: !mode.signIn});
+        setError({...error})
     };
 
     const Login =

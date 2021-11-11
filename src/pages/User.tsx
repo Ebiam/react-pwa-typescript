@@ -28,7 +28,7 @@ export default function User() {
                 .then(subscription => {
                     console.log('Sending api request');
                     console.log(subscription);
-                    axios.post(/*"https://node-backend-pwa.herokuapp.com"*/"http://localhost:3000" + "/notifications" + "/register", subscription).then((res) => {
+                    axios.post("https://node-backend-pwa.herokuapp.com/notifications/register", subscription).then((res) => {
                         console.log('Send ok');
                         console.log(res);
                         console.log(res.data);

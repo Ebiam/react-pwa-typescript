@@ -8,14 +8,14 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
 export default function MenuNavBar() {
-    const [auth, setAuth] = React.useState(true);
+    //const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const navigate = useNavigate();
 
 
-    const handleChange = (event: any) => {
+    /*const handleChange = (event: any) => {
         setAuth(event.target.checked);
-    };
+    };*/
 
     const handleMenu = (event: any) => {
         setAnchorEl(event.currentTarget);

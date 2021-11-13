@@ -1,18 +1,30 @@
 import React, {useState} from "react";
 import {urlBase64ToUint8Array} from "../utils/notificationUtils";
-import axios from "axios";
 import MenuNavbar from "../components/material/MenuNavbar";
 import pdp from "../assets/image_avatar.jpg";
 import Links from "../components/Links";
+import ApiHelper from '../services/ApiHelper';
+import config from '../config/config';
+import BackgroundSync from "../serviceWorkerRegistration";
 
 export default function User() {
     const [isSub, setSub] = useState(false);
 
-    const vapidPublicKey = "BM0AYWnrNIo1NGaYDYgok4I-xtyB1NZidBV0MtUKEdx8jKIDaO7g8b9eOjNAOgFuf80mSyyGGoFUf3UNOBK_lqQ";
-    const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+    const convertedVapidKey = urlBase64ToUint8Array(config.vapidPublicKey);
+
+    const verifNotifPermission = () => {
+        Notification.requestPermission(function(result) {
+            if (result !== 'granted') console.log('Error with requestPermission');
+            else console.log('requestPermission GRANTED');
+        });
+    };
 
     const subscribePush = () => {
-        console.log('slt');
+        Notification.requestPermission(function(result) {
+            if (result !== 'granted') console.log('Error with requestPermission');
+            else console.log('requestPermission GRANTED');
+        });
+
         navigator.serviceWorker.ready.then(registration => {
             if (!registration.pushManager) {
                 alert("Push Unsupported");
@@ -28,7 +40,7 @@ export default function User() {
                 .then(subscription => {
                     console.log('Sending api request');
                     console.log(subscription);
-                    axios.post("https://node-backend-pwa.herokuapp.com/notifications/register", subscription).then((res) => {
+                    ApiHelper.register_notification(subscription).then((res) => {
                         console.log('Send ok');
                         console.log(res);
                         console.log(res.data);
@@ -82,7 +94,14 @@ export default function User() {
                             subscribePush();
                         else
                             unsubscribePush();
-                    }}>Subscribe to notifications</button>
+                    }}>{isSub ? "Unsubscribe" : "Subscribe to notifications"}</button>
+                    <button onClick={() => {
+                        //verifNotifPermission();
+                        BackgroundSync('myFirstSync');
+                    }}>Background</button>
+                    <button type="button" onClick={() =>
+                        BackgroundSync('tryqueue')
+                    }>{'Sync Pending Requests'}</button>
                 </div>
 
 

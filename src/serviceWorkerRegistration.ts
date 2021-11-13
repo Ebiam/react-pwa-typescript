@@ -45,7 +45,7 @@ export function register(config?: Config) {
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
           console.log(
-            'This web app is being served cache-first by a service ' +
+          'LOCALHOST : This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://cra.link/PWA'
           );
         });
@@ -53,7 +53,27 @@ export function register(config?: Config) {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
       }
+      //Background Sync
+      BackgroundSync('isNewVersion');
+
     });
+  }
+}
+
+export default function BackgroundSync(eventName: string)
+{
+  if ('serviceWorker' in navigator && 'SyncManager' in window) {
+    navigator.serviceWorker.ready.then(function (swRegistration: any) {
+      console.log("Background Sync is supported, sync.register : " + eventName);
+      return swRegistration.sync.register(eventName).then(() => console.log('Register OK')).catch(() => console.log('register KO'));
+    }).catch(err => {
+      console.log("Background Sync unsupported");
+      console.log(err);
+
+    });
+  } else {
+    // serviceworker/sync not supported
+    console.log("Background Sync unsupported");
   }
 }
 

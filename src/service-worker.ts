@@ -13,6 +13,8 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
+import BackgroundSync from "./serviceWorkerRegistration";
+import {Queue} from 'workbox-background-sync';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -69,6 +71,7 @@ registerRoute(
   })
 );
 
+
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener('message', (event) => {
@@ -86,7 +89,7 @@ type notification = {
 
 self.addEventListener('push', (event: any) => {
     console.log("SW catch push");
-    console.log('=====');
+    /*console.log('=====');
     console.log(event);
     console.log('=====');
     console.log(event.data);
@@ -95,7 +98,7 @@ self.addEventListener('push', (event: any) => {
     console.log('=====');
     console.log(event.data.json);
     console.log('=====');
-    console.log(event.data.text);
+    console.log(event.data.text);*/
     /*
     event.waitUntil(self.registration.showNotification(title, body))*/
     /*let notification = new Notification(title, {
@@ -154,4 +157,167 @@ self.addEventListener('push', (event: any) => {
         console.log('SW pushlistn error ');
         console.log(e);
     }
-})
+});
+
+function sync(bool: boolean){
+    return new Promise((resolve, reject) => {
+        if (bool)
+            resolve({a: 'b'});
+        else
+            reject({error: 'a'});
+    });
+}
+
+// our service worker file
+// we create a push notification function so the user knows when the requests are being synced
+const notificate = (title : string, message : string) => {
+    if(Notification.permission === 'granted') {
+        self.registration.showNotification(title, {
+            body: message,
+            icon: '/image.png',
+            tag: 'service-worker'
+        })
+    } else {
+        console.log("Please activate the notifications");
+        //TODO find a way to ask again ... Or to display that on page (Redux ?, Event ?)
+        alert(message);
+    }
+
+};
+
+// let's create our queue
+const queue = new Queue('myQueue',
+    {
+        // @ts-ignore
+        callbacks: {
+            requestWillEnqueue: () => {
+                notificate('You are offline! 🛠',
+                    "Your request has been submitted to the Offline queue. " +
+                    "The queue will sync with the server once you are back online.")
+            }
+        }
+    }
+);
+
+self.addEventListener('sync', function(event: any) {
+    console.log('[ServiceWorker] event listener Triggered ! : ' + event.tag);
+    if (event.tag === 'tryqueue'){
+        queue.replayRequests().then((a) => {
+            notificate('Syncing Application... 💾',
+                'Any pending requests will be sent to the server.');
+        }).catch(() =>
+            notificate("We could not submit your requests. ❌", "Please hit the 'Sync Pending Requests' button when you regain internet connection.")
+        );
+    }
+    if (event.tag === 'notifPending')
+    {
+        if(Notification.permission === 'granted') {
+            event.waitUntil(self.registration.showNotification("Sync event fired!"));
+        } else {
+            console.log('[ServiceWorker] notifPending no permission');
+            event.waitUntil(() => {
+                return new Promise((resolve, reject) => {
+                    if(Notification.permission === 'granted') {
+                        event.waitUntil(self.registration.showNotification("notifPending"));
+                        resolve(true);
+                    }
+                    else {
+                        reject(false);
+                    }
+                });
+            })
+        }
+    }
+    if (event.tag === 'myFirstSync') {
+        console.log('Salut');
+        /*Notification.requestPermission().then(function(result) {
+            if (result !== 'granted') console.log('Error with requestPermission');
+            else {
+                console.log('requestPermission GRANTED');
+                if(Notification.permission === 'granted'){
+                    console.log('requestPermission GRANTED 2');
+                    self.registration.showNotification("Salut");
+                    event.waitUntil(self.registration.showNotification("Salut 2"));
+                    navigator.serviceWorker.getRegistration().then(function(reg) {
+                        if (reg) {
+                            console.log('navigator', navigator)
+                            console.log('navigator.serviceWorker', navigator.serviceWorker)
+                            console.log('reg', reg)
+                            reg.showNotification('Hello world!');
+                        } else {
+                            console.log('no reg', reg)
+                        }
+                    })
+                }
+                event.waitUntil(self.registration.showNotification("Sync event fired!"));
+            }
+        });*/
+
+        /*if(Notification.permission === 'granted') {
+            event.waitUntil(self.registration.showNotification("Sync event fired!"));
+        } else {
+            //BackgroundSync('notifPending');
+            let eventName = 'notifPending';
+            if ('serviceWorker' in navigator && 'SyncManager' in window) {
+                navigator.serviceWorker.ready.then(function (swRegistration: any) {
+                    console.log("Background Sync is supported, sync.register : " + eventName);
+                    return swRegistration.sync.register(eventName).then(() => console.log('Register OK')).catch(() => console.log('register KO'));
+                }).catch(err => {
+                    console.log("Background Sync unsupported");
+                    console.log(err);
+
+                });
+            } else {
+                // serviceworker/sync not supported
+                console.log("Background Sync unsupported");
+            }
+        }*/
+
+        event.waitUntil(
+            sync(false)
+                .then(data => console.log(data))
+                .catch(error => {
+                    console.log('Could not sync; scheduled for the next time', error);
+                    throw error; // Alternatively, `return Promise.reject(error);`
+                })
+        );
+
+        /*event.waitUntil(() => {
+            return new Promise((resolve, reject) => {
+                console.log('[ServiceWorker] myFirstSync event listener Triggered !');
+                const body = {body: 'Vous êtes maintenant connecté à internet', title: 'FollowMe!'};
+                const options = {
+                    // @ts-ignore
+                    body: body.body,
+                    icon: "images/favicon-16x16.png",
+                    vibrate: [100, 50, 100],
+                    data: {
+                        dateOfArrival: Date.now(),
+                        primaryKey: 1,
+                    },
+                };
+                if(Notification.permission === 'granted') {
+                    self.registration.showNotification(body.title, options).then(
+                        () => {
+                            console.log('Notif back ok');
+                            return resolve(true)
+                        }
+                    ).catch((err) => {
+                        console.log('Notif back KO');
+                        console.log(err);
+                        return reject(false)
+                    });
+                    console.log('Okokokokokokokokok');
+                    return resolve(true);
+                } else {
+                    console.log('Kokokokokokokookokoko');
+                    reject(false);
+                }
+
+            });
+
+
+        });*/
+    }
+});
+

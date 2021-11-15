@@ -278,7 +278,7 @@ const queue = new Queue('myQueue',
 
 self.addEventListener('sync', function(event: any) {
     // When an sync.register is called offline, will be triggered when network is back
-    console.log('[ServiceWorker v0.0.5] SYNC event listener Triggered ! : ' + event.tag);
+    console.log('[ServiceWorker v0.0.6] SYNC event listener Triggered ! : ' + event.tag);
 
     if (event.tag === 'tryqueue'){
         editqueue.getAll().then((arr) => {

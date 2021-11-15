@@ -27,6 +27,7 @@ function invokeServiceWorkerUpdateFlow(registration: ServiceWorkerRegistration) 
     if (registration && registration.waiting) {
         registration.waiting.postMessage({ type: 'SKIP_WAITING' });
     }
+    setInterval(()=>window.location.reload(), 5000);
     window.location.reload();
 }
 

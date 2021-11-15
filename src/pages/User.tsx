@@ -103,7 +103,7 @@ export default function User() {
                 </div>
 
                 <div className={"Title-container"}>
-                    <p>Enzo Biamonti</p>
+                    <p>Jean Laclasse</p>
                 </div>
                 <div className={"Buttons-container"} >
                     <button onClick={() => {

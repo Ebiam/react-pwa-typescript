@@ -115,7 +115,7 @@ export default function User() {
                     <button onClick={() => {
                         //verifNotifPermission();
                         BackgroundSync('notifPending');
-                    }}>Background 1</button>
+                    }}>Background Test</button>
                     <button type="button" onClick={() =>
                         BackgroundSync('tryqueue')
                     }>{'Sync Pending Requests !'}</button>

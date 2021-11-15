@@ -12,10 +12,31 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+function invokeServiceWorkerUpdateFlow(registration: ServiceWorkerRegistration) {
+    // TODO implement your own UI notification element
+
+    /*notification.show("New version of the app is available. Refresh now?");
+    notification.addEventListener('click', () => {
+        if (registration.waiting) {
+            // let waiting Service Worker know it should became active
+            registration.waiting.postMessage('SKIP_WAITING')
+        }
+    })*/
+    console.log('invokeServiceWorkerUpdateFlow !!');
+    alert('New version available!  Ready to update?');
+    if (registration && registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+    }
+    window.location.reload();
+}
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register();
+serviceWorkerRegistration.register({
+    //onSuccess?: (registration: ServiceWorkerRegistration) => void;
+    onUpdate: invokeServiceWorkerUpdateFlow,
+});
 
 
 

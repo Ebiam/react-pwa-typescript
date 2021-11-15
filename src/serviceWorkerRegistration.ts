@@ -55,6 +55,11 @@ export function register(config?: Config) {
       }
       //Background Sync
       BackgroundSync('isNewVersion');
+      //Ask for notification permission
+      Notification.requestPermission(function(result) {
+        if (result !== 'granted') console.log('Error with requestPermission');
+        else console.log('requestPermission GRANTED');
+      });
 
     });
   }
@@ -64,16 +69,16 @@ export default function BackgroundSync(eventName: string)
 {
   if ('serviceWorker' in navigator && 'SyncManager' in window) {
     navigator.serviceWorker.ready.then(function (swRegistration: any) {
-      console.log("Background Sync is supported, sync.register : " + eventName);
+      console.log("[serviceWorkerRegistration BackgroundSync]Background Sync is supported, sync.register : " + eventName);
       return swRegistration.sync.register(eventName).then(() => console.log('Register OK')).catch(() => console.log('register KO'));
     }).catch(err => {
-      console.log("Background Sync unsupported");
+      console.log("[serviceWorkerRegistration BackgroundSync] Background Sync unsupported");
       console.log(err);
 
     });
   } else {
     // serviceworker/sync not supported
-    console.log("Background Sync unsupported");
+    console.log("[serviceWorkerRegistration BackgroundSync] Background Sync unsupported");
   }
 }
 

@@ -28,6 +28,7 @@ export default function Home() {
             </div>
             <div className={'home-content'}>
                 <Button variant="contained" onClick={() => navigate('login')}>Let's go !</Button>
+                <Button variant="contained" onClick={() => navigate('user')}>Let's go !</Button>
             </div>
 
         </div>

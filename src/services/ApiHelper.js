@@ -6,6 +6,11 @@ class ApiHelper {
         console.log('[ApiHelper] register_notification');
         return axios.post(config.api_url + "/notifications/register", subscription);
     }
+
+    static edit(subscription) {
+        console.log('[ApiHelper] edit');
+        return axios.get(config.api_url + "/edit/2", subscription);
+    }
 }
 
 export default ApiHelper;

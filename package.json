@@ -2,6 +2,8 @@
   "name": "react-pwa-typescript",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://musing-hamilton-3d73a7.netlify.app",
+  "author": "Enzo Biamonti",
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",

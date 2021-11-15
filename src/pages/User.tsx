@@ -28,7 +28,7 @@ export default function User() {
             body: notifBody,
             icon: notifImg
         }
-        let notif = new Notification(notifTitle, options);
+        /*let notif = */new Notification(notifTitle, options);
         //setTimeout(randomNotification, 30000);
     }
 

@@ -6,7 +6,7 @@ import React from "react";
 
 export default function AppRouter() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename='/'>
             <Routes>
                 <Route  path="/" element={<Home/>}/>
                 <Route  path="/index.html" element={<Home/>}/>

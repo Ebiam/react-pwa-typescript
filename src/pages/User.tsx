@@ -118,7 +118,7 @@ export default function User() {
                     }}>Background Test</button>
                     <button type="button" onClick={() =>
                         BackgroundSync('tryqueue')
-                    }>{'Queue Pending Request ?'}</button>
+                    }>{'Queue Pending Request'}</button>
                     <button type="button" onClick={() =>
                         ApiHelper.edit().then((res) => {
                             console.log('Edit ok');

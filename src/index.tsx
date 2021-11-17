@@ -28,7 +28,8 @@ function invokeServiceWorkerUpdateFlow(registration: ServiceWorkerRegistration) 
         registration.waiting.postMessage({ type: 'SKIP_WAITING' });
     }
     //setInterval(()=>window.location.reload(), 5000);
-    window.location.reload();
+    window.location.pathname = '/';
+    //window.location.reload();
 }
 
 // If you want your app to work offline and load faster, you can change

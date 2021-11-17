@@ -92,6 +92,7 @@ function registerValidSW(swUrl: string, config?: Config) {
           return;
         }
         installingWorker.onstatechange = () => {
+
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,
@@ -101,10 +102,14 @@ function registerValidSW(swUrl: string, config?: Config) {
                 'New content is available and will be used when all ' +
                   'tabs for this page are closed. See https://cra.link/PWA.'
               );
-
+              if (registration && registration.waiting) {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              }
+              alert('New version available!  Ready to update?');
+              setInterval(()=>window.location.reload(), 5000);
               // Execute callback
               if (config && config.onUpdate) {
-                config.onUpdate(registration);
+                //config.onUpdate(registration);
               }
             } else {
               // At this point, everything has been precached.

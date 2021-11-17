@@ -30,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/index.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="25" column="54" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="54" />
+            <state relative-caret-position="269">
+              <caret line="25" column="54" selection-start-line="25" selection-start-column="54" selection-end-line="25" selection-end-column="54" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -66,7 +66,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pages/Home.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
+            <state relative-caret-position="624">
               <caret line="30" column="73" selection-start-line="30" selection-start-column="73" selection-end-line="30" selection-end-column="73" />
               <folding>
                 <element signature="e#0#59#0" expanded="true" />
@@ -78,8 +78,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/serviceWorkerRegistration.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="107" column="64" selection-start-line="107" selection-start-column="64" selection-end-line="107" selection-end-column="64" />
+            <state relative-caret-position="233">
+              <caret line="107" column="16" selection-start-line="107" selection-start-column="16" selection-end-line="107" selection-end-column="16" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -100,7 +100,7 @@
         <entry file="file://$PROJECT_DIR$/src/pages/User.tsx">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="342">
-              <caret line="120" column="49" selection-start-line="120" selection-start-column="49" selection-end-line="120" selection-end-column="49" />
+              <caret line="120" column="46" selection-start-line="120" selection-start-column="46" selection-end-line="120" selection-end-column="46" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -183,8 +183,8 @@
         <option value="$PROJECT_DIR$/src/service-worker.ts" />
         <option value="$PROJECT_DIR$/README.txt" />
         <option value="$PROJECT_DIR$/_redirects" />
-        <option value="$PROJECT_DIR$/src/index.tsx" />
         <option value="$PROJECT_DIR$/src/serviceWorkerRegistration.ts" />
+        <option value="$PROJECT_DIR$/src/index.tsx" />
         <option value="$PROJECT_DIR$/src/pages/User.tsx" />
       </list>
     </option>
@@ -328,15 +328,16 @@
       <workItem from="1636587142116" duration="10870000" />
       <workItem from="1636749714834" duration="39840000" />
       <workItem from="1637008713300" duration="968000" />
-      <workItem from="1637108054149" duration="2604000" />
+      <workItem from="1637108054149" duration="4084000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86509000" />
+    <option name="totallyTimeSpent" value="87989000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="232" y="25" width="1284" height="940" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49819493" visible="true" weight="0.284219" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -544,16 +545,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pages/Home.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="30" column="73" selection-start-line="30" selection-start-column="73" selection-end-line="30" selection-end-column="73" />
-          <folding>
-            <element signature="e#0#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/_redirects">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -565,16 +556,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="30" selection-start-column="30" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="25" column="54" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -590,10 +571,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/serviceWorkerRegistration.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="107" column="64" selection-start-line="107" selection-start-column="64" selection-end-line="107" selection-end-column="64" />
+        <state relative-caret-position="233">
+          <caret line="107" column="16" selection-start-line="107" selection-start-column="16" selection-end-line="107" selection-end-column="16" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pages/Home.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="624">
+          <caret line="30" column="73" selection-start-line="30" selection-start-column="73" selection-end-line="30" selection-end-column="73" />
+          <folding>
+            <element signature="e#0#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="25" column="54" selection-start-line="25" selection-start-column="54" selection-end-line="25" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -601,7 +602,7 @@
     <entry file="file://$PROJECT_DIR$/src/pages/User.tsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
-          <caret line="120" column="49" selection-start-line="120" selection-start-column="49" selection-end-line="120" selection-end-column="49" />
+          <caret line="120" column="46" selection-start-line="120" selection-start-column="46" selection-end-line="120" selection-end-column="46" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>

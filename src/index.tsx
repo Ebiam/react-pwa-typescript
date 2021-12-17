@@ -6,9 +6,9 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './redux2/store/store';
-import configureStore from './redux/configureStore'
-import { setOpen } from './redux2/toast/toastSlice';
-import {useAppDispatch} from './redux2/store/hooks';
+//import configureStore from './redux/configureStore'
+//import { setOpen } from './redux2/toast/toastSlice';
+//import {useAppDispatch} from './redux2/store/hooks';
 
 
 

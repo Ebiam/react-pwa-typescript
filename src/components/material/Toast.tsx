@@ -1,10 +1,10 @@
-import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import Snackbar/*, { SnackbarOrigin } */from '@mui/material/Snackbar';
 import React from "react";
 import {useAppDispatch, useAppSelector} from "../../redux2/store/hooks";
-import ApiHelper from "../../services/ApiHelper";
+//import ApiHelper from "../../services/ApiHelper";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import {RootState} from "../../redux2/store/store";
-import { setOpen, setMessage, setSeverity } from '../../redux2/toast/toastSlice';
+import { setOpen/*, setMessage, setSeverity */} from '../../redux2/toast/toastSlice';
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -22,11 +22,11 @@ export default function Toast() {
     const message = useAppSelector((state: RootState) => state.toast.message);
     const snackSeverity = useAppSelector((state: RootState) => state.toast.severity);
 
-    type Severity = "error" | "success" | "info" | "warning";
-    const snackSeverities : [Severity, Severity, Severity, Severity] = ["success", "info", "warning", "error"];
+    //type Severity = "error" | "success" | "info" | "warning";
+    //const snackSeverities : [Severity, Severity, Severity, Severity] = ["success", "info", "warning", "error"];
     //const isOpen = true;//useAppSelector(state => state.toast.isOpen);
 
-    const login = (username: string, password: string, keepAlive: boolean) => {
+    /*const login = (username: string, password: string, keepAlive: boolean) => {
         ApiHelper.login(username, password).then((res) => {
             console.log('[Login] ok' , res);
         }).catch((err) => {
@@ -45,7 +45,7 @@ export default function Toast() {
             dispatch(setMessage(message));
             dispatch(setOpen(true));
         })
-    };
+    };*/
 
 
 
@@ -64,7 +64,7 @@ export default function Toast() {
                     horizontal: 'center' }}
                 autoHideDuration={6000}
                 open={isOpen}
-                key={'top' + 'center'}
+                key={'topcenter'}
                 onClose={handleClose}
             >
                 <Alert onClose={handleClose} severity={snackSeverity}>{message}</Alert>

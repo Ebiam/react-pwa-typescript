@@ -1,6 +1,6 @@
 import MenuNavbar from "../components/material/MenuNavbar";
 import LoginForm from "../components/material/LoginForm";
-import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import Snackbar/*, { SnackbarOrigin } */from '@mui/material/Snackbar';
 import React from "react";
 import {useAppSelector} from "../redux/hooks";
 import ApiHelper from "../services/ApiHelper";
@@ -64,7 +64,7 @@ export default function Login() {
                     horizontal: 'center' }}
                 autoHideDuration={6000}
                 open={openSnack}
-                key={'top' + 'center'}
+                key={'topcenter'}
                 onClose={handleClose}
             >
                 <Alert onClose={handleClose}  severity={snackSeverities[snackSeverity]}>{message}</Alert>

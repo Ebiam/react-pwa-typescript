@@ -8,7 +8,7 @@ import {useAppDispatch} from '../redux2/store/hooks';
 import {RootState} from '../redux2/store/store';
 import { login, logout } from '../redux2/user/userSlice';
 import  {useAppSelector} from "../redux2/store/hooks";
-import Toast from "../components/material/Toast";
+//import Toast from "../components/material/Toast";
 import { setOpen } from '../redux2/toast/toastSlice';
 
 
@@ -17,7 +17,7 @@ export default function Home() {
 
     // The `state` arg is correctly typed as `RootState` already
     const isLogged = useAppSelector((state: RootState) => state.user.isLogged)//useAppSelector(r_isLogged);
-    const toastShow = useAppSelector((state: RootState) => state.counter.value)
+    //const toastShow = useAppSelector((state: RootState) => state.counter.value)
     const dispatch = useAppDispatch();
 
 

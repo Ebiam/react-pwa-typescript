@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {BrowserRouter, Route, Routes, useLocation/*, useLocation */} from 'react-router-dom';
 import User from "../pages/User";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
@@ -6,13 +6,34 @@ import React from "react";
 import Toast from "../components/material/Toast";
 import {setOpen, setMessage} from "../redux2/toast/toastSlice";
 import {useAppDispatch} from "../redux2/store/hooks";
+import {createAxiosInterceptor} from "../services/ApiHelper";
 
-export default function AppRouter() {
+function RefreshSwWrapper(props: any) {
+
+    const location = useLocation();
+    React.useEffect(() => {
+        navigator.serviceWorker
+            .getRegistrations()
+            .then((regs) => {
+                console.log("Page changed !!");
+                regs.forEach((reg) => reg.update());
+            });
+    }, [location]);
+
+    return (
+        <>
+            {props.component}
+        </>
+    );
+}
+
+function AppRouter() {
 
     const dispatch = useAppDispatch();
 
-    React.useEffect(() => {
+    createAxiosInterceptor();
 
+    React.useEffect(() => {
         navigator.serviceWorker.ready.then(worker => {
             worker!.active!.postMessage({type: 'REGISTER'});
         });
@@ -22,6 +43,9 @@ export default function AppRouter() {
             if (event.data && event.data.type)
             {
                 switch (event.data.type){
+                    case 'OFFLINE':
+                        console.log(" OFFLINE MESSSSAGE FROM SERVICE WORKER", event.data.count)
+                        break;
                     case 'TEST':
                         console.log(" TEST MESSSSAGE FROM SERVICE WORKER", event.data.count)
                         break;
@@ -43,11 +67,13 @@ export default function AppRouter() {
         <BrowserRouter basename='/'>
             <Toast/>
             <Routes>
-                <Route  path="/" element={<Home/>}/>
-                <Route  path="/index.html" element={<Home/>}/>
-                <Route  path="/user" element={<User/>}/>
-                <Route path="/login" element={<Login/>}/>
+                <Route  path="/" element={<RefreshSwWrapper component={<Home/>}/>}/>
+                <Route  path="/index.html" element={<RefreshSwWrapper component={<Home/>}/>}/>
+                <Route  path="/user" element={<RefreshSwWrapper component={<User/>}/>}/>
+                <Route path="/login" element={<RefreshSwWrapper component={<Login/>}/>}/>
             </Routes>
         </BrowserRouter>
     );
 }
+
+export default AppRouter;

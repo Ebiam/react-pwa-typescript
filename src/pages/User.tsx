@@ -6,10 +6,14 @@ import Links from "../components/Links";
 import ApiHelper from '../services/ApiHelper';
 import config from '../config/config';
 import BackgroundSync from "../serviceWorkerRegistration";
+import {} from "../redux2/sw/swSlice";
+import {useAppSelector} from "../redux2/store/hooks";
+import {RootState} from "../redux2/store/store";
 //import { notificate } from '../service-worker';
 
 export default function User() {
     const [isSub, setSub] = useState(false);
+    const SwState = useAppSelector((state: RootState) => state.sw.state)
 
     const convertedVapidKey = urlBase64ToUint8Array(config.vapidPublicKey);
 
@@ -94,6 +98,7 @@ export default function User() {
         <>
             <div className={"Page-content Insta-background"}>
                 <MenuNavbar isLogged={false} />
+                <p>{SwState}</p>
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                     <img className="fit-picture"
                          src={pdp}

@@ -2,7 +2,7 @@ import MenuNavbar from "../components/material/MenuNavbar";
 import Button from '@mui/material/Button';
 import React from "react";
 import './Home.css';
-import {useNavigate} from 'react-router-dom';
+import {/*useLocation,*/ useNavigate} from 'react-router-dom';
 
 import {useAppDispatch} from '../redux2/store/hooks';
 import {RootState} from '../redux2/store/store';
@@ -19,7 +19,6 @@ export default function Home() {
     const isLogged = useAppSelector((state: RootState) => state.user.isLogged)//useAppSelector(r_isLogged);
     //const toastShow = useAppSelector((state: RootState) => state.counter.value)
     const dispatch = useAppDispatch();
-
 
     /*React.useEffect(() => {
 

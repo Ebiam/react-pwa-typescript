@@ -4,10 +4,15 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-export default function MenuNavBar() {
+interface NavBarProps {
+    isLogged : boolean;
+}
+
+export default function MenuNavBar(props: NavBarProps) {
     //const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const navigate = useNavigate();
@@ -60,7 +65,9 @@ export default function MenuNavBar() {
                     onClick={handleMenu}
                     color="inherit"
                 >
-                    <AccountCircle />
+                    {
+                        props.isLogged ? <ModeEditIcon /> : <AccountCircle />
+                    }
                 </IconButton>
             </div>
             <div>

@@ -11,6 +11,11 @@ class ApiHelper {
         console.log('[ApiHelper] edit');
         return axios.get(config.api_url + "/edit/2", subscription);
     }
+
+    static login(username, password) {
+        console.log('[ApiHelper] edit');
+        return axios.post(config.api_url + "/login", {username, password});
+    }
 }
 
 export default ApiHelper;

@@ -1,10 +1,11 @@
-import MenuNavbar from "../components/material/MenuNavbar";
-import LoginForm from "../components/material/LoginForm";
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import React from "react";
-import {useAppSelector} from "../redux/hooks";
-import ApiHelper from "../services/ApiHelper";
+import {useAppDispatch, useAppSelector} from "../../redux2/store/hooks";
+import ApiHelper from "../../services/ApiHelper";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import {RootState} from "../../redux2/store/store";
+import { setOpen, setMessage, setSeverity } from '../../redux2/toast/toastSlice';
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -13,9 +14,17 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function Login() {
+export default function Toast() {
 
-    const isLogged = useAppSelector(state => state.user.isLogged);
+    const dispatch = useAppDispatch();
+
+    const isOpen = useAppSelector((state: RootState) => state.toast.isOpen);
+    const message = useAppSelector((state: RootState) => state.toast.message);
+    const snackSeverity = useAppSelector((state: RootState) => state.toast.severity);
+
+    type Severity = "error" | "success" | "info" | "warning";
+    const snackSeverities : [Severity, Severity, Severity, Severity] = ["success", "info", "warning", "error"];
+    //const isOpen = true;//useAppSelector(state => state.toast.isOpen);
 
     const login = (username: string, password: string, keepAlive: boolean) => {
         ApiHelper.login(username, password).then((res) => {
@@ -32,17 +41,13 @@ export default function Login() {
                     message = "You must be logged to do this";
                     severity = 2;
             }
-            setSnackSeverity(severity);
-            setMessage(message);
-            setOpenSnack(true);
+            dispatch(setSeverity(snackSeverities[severity]));
+            dispatch(setMessage(message));
+            dispatch(setOpen(true));
         })
     };
 
-    const [openSnack, setOpenSnack] = React.useState(false);
-    type Severity = "error" | "success" | "info" | "warning";
-    const snackSeverities : [Severity, Severity, Severity, Severity] = ["success", "info", "warning", "error"];
-    const [snackSeverity, setSnackSeverity] = React.useState(0);
-    const [message, setMessage] = React.useState("Oops ! An error happened !");
+
 
 
     const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
@@ -50,25 +55,19 @@ export default function Login() {
             return;
         }
 
-        setOpenSnack(false)
+        dispatch(setOpen(false))
     };
 
     return (
-        <div className={"Page-content"}>
-            <MenuNavbar isLogged={isLogged}/>
-            <div className="center">
-                <LoginForm login={login}/>
-            </div>
             <Snackbar
                 anchorOrigin={{ vertical: 'top',
                     horizontal: 'center' }}
                 autoHideDuration={6000}
-                open={openSnack}
+                open={isOpen}
                 key={'top' + 'center'}
                 onClose={handleClose}
             >
-                <Alert onClose={handleClose}  severity={snackSeverities[snackSeverity]}>{message}</Alert>
+                <Alert onClose={handleClose} severity={snackSeverity}>{message}</Alert>
             </Snackbar>
-        </div>
     );
 };

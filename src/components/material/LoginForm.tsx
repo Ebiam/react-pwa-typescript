@@ -9,6 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import { login, logout } from '../../redux/reducers/userReducer';
 
 
 interface FormState {
@@ -16,6 +17,7 @@ interface FormState {
     password: string;
     confirmPassword: string;
     showPassword: boolean;
+    keepAlive: boolean;
 }
 
 interface FormErrorState {
@@ -27,12 +29,23 @@ interface ModeState {
     signIn: boolean;
 }
 
-export default function LoginForm() {
+/*interface LoginForm {
+    username: string,
+    password: string,
+    keepAlive: boolean
+};*/
+
+interface LoginFormProps {
+    login: (username: string, password: string, bool: boolean) => void
+};
+
+export default function LoginForm(props: LoginFormProps) {
     const [values, setValues] = React.useState<FormState>({
         username: '',
         password: '',
         confirmPassword: '',
         showPassword: false,
+        keepAlive: false
     });
 
     const [error, setError] = React.useState<FormErrorState>({
@@ -71,7 +84,6 @@ export default function LoginForm() {
                     error={error.username}
                     id="outlined-required"
                     label="Your Username"
-                    defaultValue=""
                     value={values.username}
                     onChange={handleChange('username')}
                     helperText={error.username ? "Invalid creditentials." : ""}
@@ -107,7 +119,6 @@ export default function LoginForm() {
                 error={error.username}
                 id="outlined-required"
                 label="Your Username"
-                defaultValue=""
                 value={values.username}
                 onChange={handleChange('username')}
                 helperText={error.username ? "Invalid creditentials." : ""}
@@ -178,7 +189,7 @@ export default function LoginForm() {
                     </> :
                     <>
                         <Button style={{ margin:5}} onClick={() => toggleMode()} variant="outlined">Sign In</Button>
-                        <Button style={{ margin:5}} variant="contained">Login</Button>
+                        <Button style={{ margin:5}} variant="contained" onClick={() => props.login(values.username, values.password, values.keepAlive)}>Login</Button>
                     </>
                 }
             </div>

@@ -15,7 +15,10 @@ import BackgroundSync from "./serviceWorkerRegistration";
 import {Queue} from 'workbox-background-sync';
 import {BackgroundSyncPlugin} from 'workbox-background-sync';
 import {registerRoute} from 'workbox-routing';
-import { StaleWhileRevalidate, NetworkOnly } from 'workbox-strategies';
+import { StaleWhileRevalidate, NetworkOnly} from 'workbox-strategies';
+import {BroadcastUpdatePlugin} from 'workbox-broadcast-update';
+import { setOpen, setMessage, setSeverity } from '../src/redux2/toast/toastSlice';
+import {useAppDispatch} from "./redux2/store/hooks";
 
 
 declare const self: ServiceWorkerGlobalScope;
@@ -27,6 +30,13 @@ clientsClaim();
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
+
+self.clients.matchAll().then(function(clients) {
+    clients.forEach(function(client) {
+        console.log(client);
+        client.postMessage('The service worker just started up.');
+    });
+});
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
@@ -69,7 +79,7 @@ registerRoute(
     plugins: [
       // Ensure that once this runtime cache reaches a maximum size the
       // least-recently used images are removed.
-      new ExpirationPlugin({ maxEntries: 50 }),
+      new ExpirationPlugin({ maxEntries: 50 }), new BroadcastUpdatePlugin({}),
     ],
   })
     /*/\/api\/.*\/*.json/,
@@ -79,14 +89,6 @@ registerRoute(
     'POST'*/
 
 );
-
-// This allows the web app to trigger skipWaiting via
-// registration.waiting.postMessage({type: 'SKIP_WAITING'})
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
 
 // Any other custom service worker logic can go here.
 
@@ -107,7 +109,7 @@ const editqueue = new Queue('editQueue', {
             console.log('BAH');
             notificate('We can\'t reach the server! 🛠',
                 "Your request has been submitted to the Offline queue. " +
-                "The queue will sync with the server when we can contact it.")
+                "The queue will sync with the server when we can contact it.", null)
         }
     }
 });
@@ -217,17 +219,89 @@ function sync(bool: boolean){
 
 // our service worker file
 // we create a push notification function so the user knows when the requests are being synced
-export const notificate = (title : string, message : string) => {
+
+console.log("MERDEEEEEEE");
+
+
+self.addEventListener('activate', function(event) {
+    event.waitUntil(self.clients.claim()); // Become available to all pages
+    console.log("READYYYYYYYYYYYY")
+});
+
+self.addEventListener('message', (event) => {
+
+    // This allows the web app to trigger skipWaiting via
+    // registration.waiting.postMessage({type: 'SKIP_WAITING'})
+    console.log("[SW] GOT ", event);
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
+    }
+
+    if (event.data && event.data.type === 'REGISTER') {
+        // Select who we want to respond to
+        self.clients.matchAll({
+            includeUncontrolled: true,
+            type: 'window',
+        }).then((clients) => {
+            if (clients && clients.length) {
+                // Send a response - the clients
+                // array is ordered by last focused
+                clients[0].postMessage({
+                    type: 'TEST',
+                    count: "hello",
+                });
+            }
+        });
+    }
+});
+
+const sendToRedux = async (event: any, message: string) => {
+   /* if (event.clientId) {
+        const client : any = await clients.get(event.clientId);
+        if (!client) return;
+        client.postMessage({
+            msg: message,
+            url: event.request.url
+        });
+    }*/
+    self.clients.matchAll({
+        includeUncontrolled: true,
+        type: 'window',
+    }).then((clients) => {
+        if (clients && clients.length) {
+            // Send a response - the clients
+            // array is ordered by last focused
+            clients[0].postMessage({
+                type: 'NOTIF',
+                message: message,
+            });
+        }
+    });
+
+    /*return self.clients.matchAll().then(function(clients) {
+        return Promise.all(clients.map(function(client) {
+            return client.postMessage('The service worker has activated and ' +
+                'taken control.');
+        }));
+    });*/
+}
+
+export const notificate = (title : string, message : string, event: any) => {
     if(Notification.permission === 'granted') {
         self.registration.showNotification(title, {
             body: message,
             icon: '/image.png',
             tag: 'service-worker'
         })
+        return (true);
     } else {
+        if (event)
+            sendToRedux(event, message);
+        // Get the client.
         console.log("Please activate the notifications, hers the notif you should have recieved :" + message);
         //TODO find a way to ask again ... Or to display that on page (Redux ?, Event ?)
         console.log(message);
+        return (false);
     }
 
 };
@@ -258,7 +332,7 @@ const queue = new Queue('myQueue',
             requestWillEnqueue: () => {
                 notificate('You are offline! 🛠',
                     "Your request has been submitted to the Offline queue. " +
-                    "The queue will sync with the server once you are back online.")
+                    "The queue will sync with the server once you are back online.", null)
             }
         }
     }
@@ -291,10 +365,10 @@ self.addEventListener('sync', function(event: any) {
 
         editqueue.replayRequests().then((a) => {
             notificate('Syncing Application... 💾',
-                'Any pending requests will be sent to the server.');
+                'Any pending requests will be sent to the server.', event);
             console.log(a);
         }).catch(() =>
-            notificate("We could not submit your requests. ❌", "Please hit the 'Sync Pending Requests' button when you regain internet connection.")
+            notificate("We could not submit your requests. ❌", "Please hit the 'Sync Pending Requests' button when you regain internet connection.", event)
         );
     }
     if (event.tag === 'notifPending')

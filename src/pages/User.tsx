@@ -93,7 +93,7 @@ export default function User() {
     return (
         <>
             <div className={"Page-content Insta-background"}>
-                <MenuNavbar/>
+                <MenuNavbar isLogged={false} />
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                     <img className="fit-picture"
                          src={pdp}

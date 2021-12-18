@@ -75,10 +75,6 @@ function TasksList() {
     const [edit, setEdit] = React.useState(false);
     const dispatch = useAppDispatch();
 
-    React.useEffect(() => {
-        _get();
-    });
-
     const _get = () => {
         ApiHelper.getTasks(username).then((res: any) => {
             console.log('[Link] Get ok', res, res!.data!.tasks);
@@ -97,6 +93,13 @@ function TasksList() {
             dispatch(setState('pending'));
         });
     };
+
+    React.useEffect(() => {
+        _get();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
 
     const _add = (title: any, desc :any) => {
         ApiHelper.addTasks(username, title,desc,false).then((res) => {

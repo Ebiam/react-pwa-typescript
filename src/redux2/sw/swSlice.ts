@@ -7,13 +7,13 @@ type SwStateType = "offline" | "pending" | "online";
 // Define a type for the slice state
 interface SwState {
     state: SwStateType,
-    lastUpdate: object
+    lastUpdate: string
 };
 
 // Define the initial state using that type
 const initialState: SwState = {
     state: "online",
-    lastUpdate: new Date()
+    lastUpdate: new Date().toString()
 };
 
 export const swSlice = createSlice({
@@ -24,7 +24,7 @@ export const swSlice = createSlice({
         setState: (state, action: PayloadAction<SwStateType>) => {
             state.state = action.payload;
         },
-        update: (state, action: PayloadAction<object>) => {
+        update: (state, action: PayloadAction<string>) => {
             state.lastUpdate = action.payload;
         },
     }

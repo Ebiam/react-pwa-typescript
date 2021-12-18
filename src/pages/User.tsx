@@ -6,16 +6,27 @@ import Links from "../components/Links";
 import ApiHelper from '../services/ApiHelper';
 import config from '../config/config';
 import BackgroundSync from "../serviceWorkerRegistration";
-import {} from "../redux2/sw/swSlice";
+//import {} from "../redux2/sw/swSlice";
 import {useAppSelector} from "../redux2/store/hooks";
 import {RootState} from "../redux2/store/store";
+import {useNavigate} from "react-router-dom";
 //import { notificate } from '../service-worker';
 
 export default function User() {
     const [isSub, setSub] = useState(false);
     const SwState = useAppSelector((state: RootState) => state.sw.state)
+    const isLogged = useAppSelector((state: RootState) => state.user.isLogged)//useAppSelector(r_isLogged);
+    const navigate = useNavigate();
+
 
     const convertedVapidKey = urlBase64ToUint8Array(config.vapidPublicKey);
+
+    React.useEffect(() => {
+        if (!isLogged)
+        {
+            navigate('/login');
+        }
+    });
 
     const verifNotifPermission = (title: string, mess: string) => {
         Notification.requestPermission(function(result) {
@@ -108,7 +119,7 @@ export default function User() {
                 </div>
 
                 <div className={"Title-container"}>
-                    <p>Jean BIle</p>
+                    <p>Test test</p>
                 </div>
                 <div className={"Buttons-container"} >
                     <button onClick={() => {
@@ -117,13 +128,13 @@ export default function User() {
                         else
                             unsubscribePush();
                     }}>{isSub ? "Unsubscribe" : "Subscribe to notifications"}</button>
-                    <button onClick={() => {
+                    {/*<button onClick={() => {
                         //verifNotifPermission();
                         BackgroundSync('notifPending');
-                    }}>Background Test</button>
+                    }}>Background Test</button>*/}
                     <button type="button" onClick={() =>
                         BackgroundSync('tryqueue')
-                    }>{'Queue Pending Request'}</button>
+                    }>{'Sync changes'}</button>
                     <button type="button" onClick={() =>
                         ApiHelper.edit().then((res) => {
                             console.log('Edit ok');

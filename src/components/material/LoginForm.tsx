@@ -36,7 +36,8 @@ interface ModeState {
 };*/
 
 interface LoginFormProps {
-    login: (username: string, password: string, bool: boolean) => void
+    login: (username: string, password: string, bool: boolean) => void,
+    register: (username: string, password: string, bool: boolean) => void,
 };
 
 export default function LoginForm(props: LoginFormProps) {
@@ -185,7 +186,7 @@ export default function LoginForm(props: LoginFormProps) {
                 {mode.signIn ?
                     <>
                         <Button style={{ margin:5}} onClick={() => toggleMode()} variant="outlined">Login</Button>
-                        <Button style={{ margin:5}} variant="contained">Sign In</Button>
+                        <Button style={{ margin:5}} variant="contained"  onClick={() => props.register(values.username, values.password, values.keepAlive)} >Sign In</Button>
                     </> :
                     <>
                         <Button style={{ margin:5}} onClick={() => toggleMode()} variant="outlined">Sign In</Button>

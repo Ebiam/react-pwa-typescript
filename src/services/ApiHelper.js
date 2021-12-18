@@ -1,16 +1,16 @@
 import axios from "axios";
 import config from '../config/config';
-import {useAppDispatch} from '../redux2/store/hooks';
+import {/*useAppDispatch, */useAppSelector} from '../redux2/store/hooks';
 //import {setOpen, setMessage} from "../redux2/toast/toastSlice";
-import {setState} from "../redux2/sw/swSlice";
+//import {setState} from "../redux2/sw/swSlice";
 
 const ShowErrorModal = () => {
-    const dispatch = useAppDispatch();
+    //const dispatch = useAppDispatch();
 
     axios.interceptors.response.use(
         (resp) => resp,
         (error) => {
-            dispatch(setState('pending'))
+
             console.log("Network error 000", error);
             if (!error.response) {
                 console.log("Network error 1", error);
@@ -26,9 +26,27 @@ const ShowErrorModal = () => {
     );
 };
 
+const AddAuthorizationHeader = () => {
+
+    const token = useAppSelector((state) => state.user.token);
+
+    axios.interceptors.request.use(
+        (config) => {
+            if (!config.headers.Authorization) {
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
+                }
+            }
+            return config;
+        },
+        (error) => Promise.reject(error)
+    );
+};
+
 export const createAxiosInterceptor = () => {
     // Instantiate the interceptor (you can chain it as it returns the axios instance)
     ShowErrorModal();
+    AddAuthorizationHeader();
 };
 
 class ApiHelper {
@@ -44,8 +62,24 @@ class ApiHelper {
 
     static login(username, password) {
         console.log('[ApiHelper] edit');
-        return axios.post(config.api_url + "/login", {username, password});
+        return axios.post(config.api_url + "/user/authenticate", {username, password});
     }
+
+    static register(username, password) {
+        console.log('[ApiHelper] edit');
+        return axios.post(config.api_url + "/user/register", {username, password, firstname: username, lastname: username});
+    }
+
+    static getTasks(userId) {
+        console.log('[ApiHelper] edit');
+        return axios.post(config.api_url + "/usertasks", {userId: userId} );
+    }
+
+    static addTasks(userId, title,desc,done) {
+        console.log('[ApiHelper] edit');
+        return axios.post(config.api_url + "/usertasks/add", {userId, title,desc,done});
+    }
+
 }
 
 export default ApiHelper;

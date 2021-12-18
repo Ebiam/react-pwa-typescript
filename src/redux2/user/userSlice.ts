@@ -5,27 +5,33 @@ import { RootState/*, AppThunk */} from '../store/store';
 // Define a type for the slice state
 interface UserState {
   isLogged: boolean,
-  token: string
+  token: string,
+  username: string
 };
 
 // Define the initial state using that type
 const initialState: UserState = {
   isLogged: false,
-  token: ""
+  token: "",
+  username: "",
 };
+
+type userRR = {token: string, username: string};
 
 export const userSlice = createSlice({
   name: 'user',
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
-      state.isLogged = true
+    login: (state, action: PayloadAction<userRR>) => {
+      state.token = action.payload.token;
+      state.username = action.payload.username;
+      state.isLogged = true;
     },
     logout: state => {
       state.token = "";
-      state.isLogged = false
+      state.username = "";
+      state.isLogged = false;
     },
   }
 });

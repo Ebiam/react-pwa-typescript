@@ -116,7 +116,7 @@ const editqueue = new Queue('editQueue', {
 
 //Intercept the API call to “POST /edit(/id ?)” with the background sync plugin.
 registerRoute(
-    /.*\/usertasks\/.*/,
+    /.*\/edit\/.*/,
     new NetworkOnly({
         plugins: [/*bgSyncPlugin*/
             {

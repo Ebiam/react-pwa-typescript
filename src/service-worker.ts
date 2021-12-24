@@ -298,7 +298,7 @@ export const notificate = (title : string, message : string, event: any) => {
         if (event)
             sendToRedux(event, title + ' ' + message);
         // Get the client.
-        console.log("Please activate the notifications, hers the notification you should have recieved :" + message);
+        console.log("Activate the notifications, hers the notification you should have recieved :" + message);
         //TODO find a way to ask again ... Or to display that on page (Redux ?, Event ?)
         console.log(message);
         return (false);
